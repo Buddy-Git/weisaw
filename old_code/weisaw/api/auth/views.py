@@ -3,8 +3,8 @@ import os
 from flask import Blueprint, request, jsonify, current_app
 from slackclient import SlackClient
 
-from weisaw.api.extensions import db
-from weisaw.base.models.slack_auth_model import SlackOAuth
+from old_code.weisaw.api import db
+from old_code.weisaw.base.models import SlackOAuth
 
 blue_print_name = 'auth'
 blue_print_prefix = '/auth'

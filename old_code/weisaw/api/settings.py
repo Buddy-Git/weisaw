@@ -1,6 +1,5 @@
 import os
-import logging
-from env_loader import load_env_config
+from old_code.env_loader import load_env_config
 
 # from slack_log_handler import SlackLogHandler
 

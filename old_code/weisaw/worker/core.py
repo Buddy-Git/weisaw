@@ -1,14 +1,13 @@
 import logging
-import sys
 import os
-from celery import Celery, states
+from celery import Celery
 # from weisaw.worker.settings import get_logger
 
 from raven import Client
 from raven.contrib.celery import register_signal, register_logger_signal
 
-from weisaw.api.core import create_app
-from weisaw.api.settings import DevConfig, TestConfig, ProdConfig
+from old_code.weisaw.api import create_app
+from old_code.weisaw.api import DevConfig, TestConfig, ProdConfig
 
 # celery worker -A dolores.worker.core.celery_task --loglevel=DEBUG
 # celery flower -A dolores.worker.core.celery_task

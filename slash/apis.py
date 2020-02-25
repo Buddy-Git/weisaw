@@ -1,0 +1,259 @@
+# from datetime import date
+#
+# from sqlalchemy.sql.expression import and_
+#
+# # from weisaw.base.models.employee_leave_model import EmployeeLeaveModelslackEmpLeaves
+# from old_code.weisaw.worker.tasks import parse_leave
+
+blue_print_name = 'slash'
+blue_print_prefix = '/slash'
+tablename = "slackEmpLeaves"
+
+
+# @slash_blueprint.route('/hello', methods=["POST"])
+def slack_greet():
+    return {
+        "response_type": "ephemeral",
+        "text": "Hello, {0}".format("USER"),
+    }
+
+# # @slash_blueprint.route('/wfh', methods=["POST"])
+# # @slash_blueprint.route('/ooo', methods=["POST"])
+# def slack_apply_leave(leave_type="ooo"):
+#     """
+#     Out of Office: Mark users as Out of Office, with period, email, type (ooo), user name and the raw command
+#     Work from Home: Mark users as Work from Home, with period, email, type (wfh), user name and the raw command
+#     :param leave_type: ooo/wfh
+#     :return:
+#     """
+#
+#     if "ooo" in request.path:
+#         leave_type = "ooo"
+#     else:
+#         leave_type = "wfh"
+#
+#     raw_text = request.form['text']
+#
+#     oauth_access_token = current_app.config.get("SLACK_OAUTH_TOKEN")
+#
+#     parse_leave.delay(raw_text, leave_type,
+#                       g.user_name, g.user_id, g.channel_id, g.team_id, g.response_url,
+#                       oauth_access_token)
+#
+#     return jsonify(
+#         {
+#             "response_type": "ephemeral",
+#             "text": "Sure, I am processing your leave, will let you know in a moment...",
+#         }
+#     ), 200
+#
+#
+# @slash_blueprint.route('/list', methods=["POST"])
+# def slack_emp_list_leaves():
+#     """
+#     Show all the ooo or wfh listings of the requesting user
+#     :return:
+#     """
+#
+#     emp_leaves = EmployeeLeaveModel.query.filter(
+#                                                     and_(
+#                                                         EmployeeLeaveModel.slackUserId == g.user_id,
+#                                                         EmployeeLeaveModel.slackTeamId == g.team_id,
+#                                                         EmployeeLeaveModel.endDate >= date.today()
+#                                                     )
+#                                                 ).order_by(EmployeeLeaveModel.startDate).all()
+#
+#     if emp_leaves is not None:
+#
+#         slack_msg_builder = {
+#             "response_type": "ephemeral",
+#             "text": "Following are your leaves:",
+#         }
+#
+#         slack_msg_attachment_list = []
+#
+#         for i, emp_leave in enumerate(emp_leaves):
+#
+#             if emp_leave.leaveType == "ooo":
+#                 msg_color = "#42a5f5"
+#             else:
+#                 msg_color = "#bbdefb"
+#
+#             if emp_leave.startDate == emp_leave.endDate:
+#                 leave_period = "On " + emp_leave.startDate.strftime("%d/%b/%y")
+#             else:
+#                 leave_period = emp_leave.startDate.strftime("%d/%b/%y") + " to " + emp_leave.endDate.strftime("%d/%b/%y")
+#
+#             slack_msg_attachment = {
+#                 "title": str(emp_leave.uUid) + ") " + emp_leave.leaveType.upper(),
+#                 "color": msg_color,
+#                 "text": emp_leave.rawComment,
+#                 "fields": [
+#                     {
+#                         "title": "Period",
+#                         "value": leave_period,
+#                         "short": True
+#                     }
+#                 ]
+#             }
+#
+#             slack_msg_attachment_list.append(slack_msg_attachment)
+#
+#         slack_msg_builder["attachments"] = slack_msg_attachment_list
+#
+#         return jsonify(slack_msg_builder), 200
+#
+#     else:
+#         return jsonify(
+#             {
+#                 "response_type": "ephemeral",
+#                 "text": "Cool! No upcoming leaves for you!",
+#             }
+#         ), 200
+#
+#
+# @slash_blueprint.route('/upcoming', methods=["POST"])
+# def slack_upcoming_leaves():
+#     """
+#     Show all the ooo or wfh of all the users for the requested day
+#     :return:
+#     """
+#
+#     upcoming_leaves = EmployeeLeaveModel.query.filter(
+#                                                     and_(
+#                                                         EmployeeLeaveModel.slackTeamId == g.team_id,
+#                                                         EmployeeLeaveModel.endDate >= date.today()
+#                                                     )
+#                                                 ).order_by(EmployeeLeaveModel.startDate).all()
+#
+#     if upcoming_leaves is not None and len(upcoming_leaves) > 0:
+#
+#         slack_msg_builder = {
+#             "response_type": "in_channel",
+#             "text": "Coming up:",
+#         }
+#
+#         slack_msg_attachment_list = []
+#
+#         for emp_leave in upcoming_leaves:
+#
+#             if emp_leave.leaveType == "ooo":
+#                 msg_color = "#42a5f5"
+#             else:
+#                 msg_color = "#bbdefb"
+#
+#             if emp_leave.startDate == emp_leave.endDate:
+#                 leave_period = "On " + emp_leave.startDate.strftime("%d/%b/%y")
+#             else:
+#                 leave_period = emp_leave.startDate.strftime("%d/%b/%y") + " to " + emp_leave.endDate.strftime("%d/%b/%y")
+#
+#             slack_msg_attachment = {
+#                 "title": emp_leave.slackFullName + " - (" + emp_leave.slackUsername + ")",
+#                 "color": msg_color,
+#                 "text": emp_leave.rawComment,
+#                 "fields": [
+#                     {
+#                         "title": "Period",
+#                         "value": leave_period,
+#                         "short": True
+#                     },
+#                     {
+#                         "title": "Status",
+#                         "value": emp_leave.leaveType.upper(),
+#                         "short": True
+#                     }
+#                 ]
+#             }
+#
+#             slack_msg_attachment_list.append(slack_msg_attachment)
+#
+#         slack_msg_builder["attachments"] = slack_msg_attachment_list
+#
+#         return jsonify(slack_msg_builder), 200
+#
+#     else:
+#         return jsonify(
+#             {
+#                 "response_type": "in_channel",
+#                 "text": "Wow! Everybody is in today.",
+#             }
+#         ), 200
+#
+#
+# @slash_blueprint.route('/delete', methods=["POST"])
+# def slack_delete_leave():
+#     """
+#     Delete leaves from database
+#     :return:
+#     """
+#
+#     raw_text = request.form['text']
+#
+#     if raw_text is not None and raw_text != "":
+#
+#         try:
+#             leave_id = int(raw_text)
+#         except ValueError:
+#             return jsonify(
+#                 {
+#                     "response_type": "ephemeral",
+#                     "text": "Could not find your leave...",
+#                 }
+#             ), 200
+#
+#         date_after = date.today()
+#
+#         discard_leave = EmployeeLeaveModel.query.filter(
+#             and_(
+#                 EmployeeLeaveModel.slackTeamId == g.team_id,
+#                 EmployeeLeaveModel.slackUserId == g.user_id,
+#                 EmployeeLeaveModel.uUid == leave_id,
+#                 EmployeeLeaveModel.startDate >= date_after
+#             )
+#         ).one_or_none()
+#
+#         if discard_leave is not None:
+#
+#             db.session.delete(discard_leave)
+#             db.session.commit()
+#
+#             slack_msg_builder = {
+#                 "response_type": "ephemeral",
+#                 "text": "Whoosh! its gone, deleted!",
+#             }
+#
+#             return jsonify(slack_msg_builder), 200
+#         else:
+#             return jsonify(
+#                 {
+#                     "response_type": "ephemeral",
+#                     "text": "Could not find your leave...",
+#                 }
+#             ), 200
+#
+#     else:
+#         return jsonify(
+#             {
+#                 "response_type": "ephemeral",
+#                 "text": "Give me a serial number of your leave and its gone!",
+#             }
+#         ), 200
+#
+#
+# @slash_blueprint.route('/how', methods=["POST"])
+# def how_it_works():
+#     return jsonify(
+#         {
+#             "response_type": "ephemeral",
+#             "text": "*Bored?*\n Ping me `hello`.\n\n*Want to take a leave?*\n`ooo tomorrow`: Out of Office _Tomorrow, "
+#                     "Today, Monday, Friday_...\n`ooo 2nd July to 4th July`: Bot understands dates when they are in "
+#                     "ordinal form eg: 23rd, 21st followed by the month _June, July_\n_Some examples:_\n`ooo on 5th "
+#                     "and 6th, not feeling well`\n`wfh tomorrow and day after tomorrow`\n`ooo for the rest of "
+#                     "the week`\n`wfh next thursday`\n`ooo from Monday to Friday`\n\n*Want to work from home?*\n "
+#                     "`wfh tomorrow`: Same as `ooo` command\n\n*Want check your leaves?*\n Use the `list` command"
+#                     "\n\n*Want to delete your leaves?*\n Use the `list` command to get the serial number of the leave "
+#                     "to be deleted and then use `delete` command with the serial number \neg. `delete 35`\n\n*"
+#                     "What check who's not in office today?*\nUse `upcoming` command.\n\n\n"
+#                     "_Open Source Project:_ https://github.com/5hirish/weisaw",
+#         }
+#     ), 200

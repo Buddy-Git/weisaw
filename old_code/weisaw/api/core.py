@@ -8,8 +8,8 @@ from datetime import datetime
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
-from weisaw.api.settings import ProdConfig
-from weisaw.api.extensions import migrate, db
+from old_code.weisaw.api import ProdConfig
+from old_code.weisaw.api import migrate, db
 
 app_name = 'weisaw'
 
@@ -49,8 +49,8 @@ def register_blueprints(app):
 
     # defer the import until it is really needed
 
-    from weisaw.api.auth.views import auth_blueprint
-    from weisaw.api.slash.views import slash_blueprint
+    from old_code.weisaw.api import auth_blueprint
+    from old_code.weisaw.api import slash_blueprint
 
     """Register Flask blueprints."""
     app.register_blueprint(auth_blueprint)

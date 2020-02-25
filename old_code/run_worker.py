@@ -1,5 +1,4 @@
-import os
-from weisaw.worker.core import celery_task
+from old_code.weisaw import celery_task
 
 if __name__ == '__main__':
 

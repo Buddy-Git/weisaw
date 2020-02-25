@@ -1,4 +1,4 @@
-from weisaw.api.extensions import db
+from old_code.weisaw.api import db
 from sqlalchemy.types import VARCHAR, TIMESTAMP, DATE, TEXT, INTEGER
 from datetime import datetime
 

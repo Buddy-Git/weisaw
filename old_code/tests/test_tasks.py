@@ -1,7 +1,7 @@
 import pytest
 from datetime import datetime
-from weisaw.worker.tasks import parse_leave, extract_leave_features
-from unittest.mock import patch, Mock
+from old_code.weisaw.worker.tasks import extract_leave_features
+from unittest.mock import patch
 
 
 @pytest.mark.parametrize("raw_text,leave_expected_list", [

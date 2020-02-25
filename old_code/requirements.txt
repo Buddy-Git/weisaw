@@ -7,12 +7,15 @@ pytest
 gunicorn
 psycopg2
 
+flask
 sentry_sdk
 sentry-sdk[flask]
 werkzeug[watchdog]
+flask_sqlalchemy
+flask_migrate
 blinker
 
-boto3
+python-dotenv
 dateparser
 slackclient==1.3.0
 slack_log_handler

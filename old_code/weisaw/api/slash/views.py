@@ -3,9 +3,9 @@ from datetime import date
 from flask import Blueprint, request, jsonify, current_app, g
 from sqlalchemy.sql.expression import and_
 
-from weisaw.api.extensions import db
-from weisaw.base.models.employee_leave_model import EmployeeLeaveModel
-from weisaw.worker.tasks import parse_leave
+from old_code.weisaw.api import db
+from old_code.weisaw.base.models import EmployeeLeaveModel
+from old_code.weisaw.worker.tasks import parse_leave
 
 blue_print_name = 'slash'
 blue_print_prefix = '/slash'

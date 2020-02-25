@@ -1,7 +1,7 @@
 import pytest
-from weisaw.api.core import create_app
-from weisaw.worker.core import celery_task
-from weisaw.api.settings import TestConfig
+from old_code.weisaw.api import create_app
+from old_code.weisaw import celery_task
+from old_code.weisaw.api import TestConfig
 from datetime import datetime
 
 

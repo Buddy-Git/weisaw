@@ -1,9 +1,7 @@
-import sys
 import os
-import logging
-from weisaw.api.core import create_app
+from old_code.weisaw.api import create_app
 # from weisaw.worker.core import celery_task
-from weisaw.api.settings import DevConfig, TestConfig, ProdConfig
+from old_code.weisaw.api import DevConfig, TestConfig, ProdConfig
 
 
 def configure_app():

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy.types import VARCHAR, TIMESTAMP, TEXT, INTEGER
 
-from weisaw.api.extensions import db
+from old_code.weisaw.api import db
 
 # Alias common SQLAlchemy names
 Column = db.Column

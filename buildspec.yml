@@ -1,0 +1,22 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+    commands:
+      - apt install libpq-dev python3-dev
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Compiling the Python code...
+      - pip install -r requirements.txt -t ./
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - pwd
+      - ls -al
+artifacts:
+  files:
+    - '**/*'
+  name: weisaw-lambda.zip

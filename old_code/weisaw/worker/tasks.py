@@ -2,7 +2,6 @@ import requests
 import json
 import re
 
-from dateparser.search import search_dates
 import os
 
 from datetime import datetime
@@ -12,10 +11,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from celery.utils.log import get_task_logger
 
-from weisaw.base.models.employee_leave_model import EmployeeLeaveModel
-from weisaw.worker.core import celery_task, BaseTask
-from weisaw.base.models.slack_auth_model import SlackOAuth
-from weisaw.base.util import tokens as date_tokens
+from old_code.weisaw.base.models import EmployeeLeaveModel
+from old_code.weisaw import celery_task, BaseTask
+from old_code.weisaw.base.models import SlackOAuth
+from old_code.weisaw.base.util import tokens as date_tokens
 
 task_base_name = "weisaw.worker."
 logger = get_task_logger(__name__)
